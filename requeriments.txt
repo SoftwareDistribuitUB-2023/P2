@@ -4,3 +4,4 @@ httpx
 requests
 pydantic
 pytest
+sqlalchemy

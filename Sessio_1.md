@@ -218,7 +218,7 @@ async def create_team(team: Team):
 
 ### Exercici 2:
 
-Escriviu la classe `Team` en un fitxer anomenat `models.py` i importeu-la al fitxer principal `main.py`. 
+Escriviu la classe `Team` en un fitxer anomenat `schemas.py` i importeu-la al fitxer principal `main.py`. 
 Proveu el mètode post fent servir `requests` o una altra eina per fer tests d'APIs tot afegint la següent informació al cos del request:
 
 ``` html
