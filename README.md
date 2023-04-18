@@ -37,32 +37,38 @@ Avaluació pràctica 2.
 - 30% Fer els pull requests setmanalment.
 - 70% Lliurament final: 20% Sessió de Test, 80% codi final.
 
-```
 
 Sessió 1
 =========
-- 19 de d'abril [Sessió 1](https://github.com/SoftwareDistribuitUB-2023/P2/blob/main/Sessio_1.md)
+
+- 19 d'abril [Sessió 1](https://github.com/SoftwareDistribuitUB-2023/P2/blob/main/Sessio_1.md)
 
 Sessió 2
 =========
-- 26 d'abril [Sessió 2](https://github.com/SoftwareDistribuitUB-2023/Practica2/blob/main/Sessio_2.md)
+
+- 26 d'abril [Sessió 2](https://github.com/SoftwareDistribuitUB-2023/P2/blob/main/Sessio_2.md)
 
 Sessió 3
 =========
+
 - 3 de Maig [Sessió 3](https://github.com/SoftwareDistribuitUB-2023/P2/blob/main/Sessio_3.md)
 
 Sessió 4
 =========
+
 - 4 de Maig [Sessió 4](https://github.com/SoftwareDistribuitUB-2023/P2/blob/main/Sessio_4.md)
 
 Sessió 5
 =========
+
 - 10 de Maig [Sessió 5](https://github.com/SoftwareDistribuitUB-2023/P2/blob/main/Sessio_5.md)
 
 Sessió 6
 =========
+
 - 18 de Maig [Sessió 6](https://github.com/SoftwareDistribuitUB-2023/P2/blob/main/Sessio_6.md)
 
 Sessió de Test
 =========
+
 - 24 de Maig [Sessió Test](https://github.com/SoftwareDistribuitUB-2023/P2/blob/main/Sessio_Test.md)
