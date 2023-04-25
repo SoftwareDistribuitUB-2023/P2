@@ -68,7 +68,7 @@ Definirem l'estructura "Teams" que defineix el nom de la taula, el nom, el tipus
 
 ```python
 
-class Teams(Base):
+class Team(Base):
     __tablename__ = 'teams' #This is table name
 
     id = Column(Integer, primary_key=True)
@@ -237,8 +237,8 @@ class Team(TeamBase):
 
 class CompetitionBase(BaseModel):
     name: str
-    category: enum.Enum(*categories_list)
-    sport: enum.Enum(*sports_list)
+    category: enum.Enum('category',categories_list)
+    sport: enum.Enum('sport',sports_list)
     
 class CompetitionCreate(CompetitionBase):
     pass
