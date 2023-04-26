@@ -252,18 +252,16 @@ Desactiveu el botó de compra si els diners disponibles no són suficients per c
 D’altra banda, desactiveu el botó de ticket si el total de bitllets és 0.
 Per fer-ho, podeu utilitzar la propietat `:disabled="variable1 < variable2"` en els botons.
 
-Conectant Vue i Flask
+Conectant Vue i FASTApi
 --------------
 
-Ara hem de connectar el Framework de Frontend de VUE (node.js) amb el Framework de Backend de Flask (python). Però primer haurem de permetre que es puguin fer "requests" des del client (javascript del navegador) al servidor web. Per això haurem de permetre-ho en el nostre backend de flask.
+Ara hem de connectar el Framework de Frontend de VUE (node.js) amb el Framework de Backend de FASTApi (python). Però primer haurem de permetre que es puguin fer "requests" des del client (javascript del navegador) al servidor web. Per això haurem de permetre-ho en el nostre backend de FAST-API.
 
 ### Activant CORS (Cross-Origin Resource Sharing)
 
-CORS és el mecanisme per gestionar les sol·licituds d’origen creuat. Una sol·licitud de recurs de fora de l’origen es coneix com a sol·licitud d’origen creuat. En aquesta pràctica, crearem una aplicació de frontend que sol·licitarà informació a Flask. Per habilitar l'accés, hem d'instal·lar la llibreria `flask-cors` de python.
+CORS és el mecanisme per gestionar les sol·licituds d’origen creuat. Una sol·licitud de recurs de fora de l’origen es coneix com a sol·licitud d’origen creuat. En aquesta pràctica, crearem una aplicació de frontend que sol·licitarà informació a FASTApi. 
 
-	pip install flask-cors
-
-Després d'això, importeu el CORS i configureu l'aplicació per tal d'acceptar sol·licituds de tots els orígens:
+Importeu el CORSMiddleWare i configureu l'aplicació per tal d'acceptar sol·licituds de tots els orígens:
 
 ```python
 from fastapi import FastAPI
