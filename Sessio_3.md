@@ -307,7 +307,7 @@ from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
+app.mount("/static", StaticFiles(directory="frontend/dist/static"), name="static")
 )
 ```
 
@@ -319,7 +319,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 
 
-templates = Jinja2Templates(directory="templates") 
+templates = Jinja2Templates(directory="frontend/dist") 
 @app.get("/")
 async def serve_index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
