@@ -237,8 +237,8 @@ class Team(TeamBase):
 
 class CompetitionBase(BaseModel):
     name: str
-    category: enum.Enum('category',categories_list)
-    sport: enum.Enum('sport',sports_list)
+    category: enum.Enum('category',dict(zip(categories_list,categories_list)))
+    sport:  enum.Enum('sport',dict(zip(sports_list,sports_list)))
     
 class CompetitionCreate(CompetitionBase):
     pass
