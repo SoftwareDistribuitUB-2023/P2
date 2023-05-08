@@ -95,7 +95,8 @@ Modifiqueu el codi actual per mostrar els partits de manera estructurada. Una fo
 Obtenir dades d'APIs amb AXIOS
 ---------
 
-Per a poder obtenir dades amb la mateixa estructura que el diccionari anterior, necessitem afegir certa informació a l'output de l'endpoint matches. Modifiqueu el mètode json de MatchesModel per afegir un camp "competition_id" que serà igual a la id de la competició. Utilitzarem aquesta id per a demanar a l'API la resta d'informació sobre la competició.
+Per a poder obtenir dades amb la mateixa estructura que el diccionari anterior, necessitem afegir certa informació a l'output de l'endpoint matches. Ajusteu el schema de l'endpoint matches perquè retorni la informació de la competició. 
+
 
 En lloc de declarar una llista de partits, fem servir la nostra API desenvolupada a FastAPI per GET, POST, PUT i DELETE mitjançant Vue. Per consumir rutes des de Vue, fem servir la biblioteca axios:
 
@@ -114,7 +115,7 @@ Executeu l'aplicació FastAPI i afegiu el codi següent als mètodes de vue:
 
 ```javascript
 getMatches () {
-      const pathMatches = 'http://localhost:8000/matches'
+      const pathMatches = 'http://localhost:8000/matches/'
       const pathCompetition = 'http://localhost:8000/competition/'
 
       axios.get(pathMatches)
@@ -158,7 +159,7 @@ A més, afegiu created() sota i fora dels mètodes. Permet que el codi s’execu
 
 ```javascript
 created () {
-    this.getShows()
+    this.getMatches()
   }
 ```
 
