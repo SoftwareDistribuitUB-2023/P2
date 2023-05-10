@@ -6,5 +6,7 @@ pydantic
 pytest
 sqlalchemy
 sqlite3
+bcrypt
+passlib
 python-multipart
-jose
+python-jose

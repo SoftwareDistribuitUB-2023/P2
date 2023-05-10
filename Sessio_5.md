@@ -42,7 +42,7 @@ La funció `verify_password` agafa un password en clar i un hash i comprova si e
 
 ### Crear i assignar JWT (JSON Web Token)
 
-Un JWT és un estàndard obert (RFC 7519) que defineix una forma compacta i autònoma per a la transmissió segura d'informació entre parts com un objecte JSON. Aquesta informació pot ser verificada i confiada perquè està signada digitalment. Els JWT es poden signar mitjançant un algoritme HMAC (clau secreta) o un parell de claus RSA / EC (clau pública i privada).
+Un JWT és un estàndard obert (RFC 7519) que defineix una forma compacta i autònoma per a la transmissió segura d'informació entre parts com a un objecte JSON. Aquesta informació pot ser verificada i confiada perquè està signada digitalment. Els JWT es poden signar mitjançant un algoritme HMAC (clau secreta) o un parell de claus RSA / EC (clau pública i privada).
 Usarem la llibreria jose, instal·leu-la fent:
 
         pip3 install jose
@@ -362,7 +362,7 @@ checkLogin () {
     username: this.username,
     password: this.password
   }
-  const path = 'http://localhost:5000/login'
+  const path = 'http://localhost:8000/login'
   axios.post(path, parameters)
     .then((res) => {
       this.logged = true
@@ -383,7 +383,7 @@ Observem que estem fent servir una eina per canviar la ruta actual del component
 this.$router.push({ path: '/', query: { username: this.username, logged: this.logged, token: this.token } })
 ```
 
-Els parametres uqe passem ens permeten donar a la vista principal l'informació sobre l’usuari. "username" conté el nom d'usuari actual, "logged" és un booleà que mostra si l'usuari ha iniciat la sessió correctament i "token" és la string del token per a poder enviar requests autoritzades.
+Els paràmetres que passem ens permeten donar a la vista principal la informació sobre l’usuari. "username" conté el nom d'usuari actual, "logged" és un booleà que mostra si l'usuari ha iniciat la sessió correctament i "token" és la string del token per a poder enviar requests autoritzades.
 
 Per consumir la informació de la consulta des de la vista `Matches`, hem d'inicialitzar els atributs a data i podem utilitzar les línies següents a `created()`:
 
@@ -399,7 +399,7 @@ created () {
         
 ### Exercici 3:
  
-1Creeu un mètode getAccount() a `Matches` que faci un GET al backend per mirar si l'usuari, que ha iniciat sessió, és administrador o no i deseu-lo en una variable anomenada `is_admin`.
+Creeu un mètode getAccount() a `Matches` que faci un GET al backend per mirar si l'usuari, que ha iniciat sessió, és administrador o no i deseu-lo en una variable anomenada `is_admin`.
 
 Botó Create Account
 --------------
@@ -436,7 +436,7 @@ Després, mitjançant el mètode onSubmit hauríem de cridar el mètode a POST. 
 2.  Creeu un mètode POST per enviar les noves dades d'usuari mitjançant path i paràmetres:
 
 ```javascript
-const path = 'http://localhost:5000/account'
+const path = 'http://localhost:8000/account'
 ```
 
 ```javascript
@@ -468,7 +468,7 @@ Per proporcionar seguretat per a les compres de cada usuari, hauríem d’utilit
 
 ```javascript
 addPurchase (parameters) {
-  const path = 'http://localhost:5000/order/${this.username}'
+  const path = 'http://localhost:8000/order/${this.username}'
   axios.post(path, parameters, {
     auth: {username: this.token}
   })
