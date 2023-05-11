@@ -408,7 +408,7 @@ Botó Create Account
 
 Aquest botó és un formulari on l'usuari introduirà les seves dades i les enviarà. El botó Envia crida a un mètode POST on les dades es guarden a la taula de comptes.
 Abans d’enviar POST hauríem de plantejar-nos com obtenir les dades a enviar. Per obtenir aquestes dades, podem utilitzar Forms i emmagatzemar-los en un objecte.
-En el nostre formulari, hem de recopilar la informació necessària per enviar-la a Flask per POST o PUT.
+En el nostre formulari, hem de recopilar la informació necessària per enviar-la al BE per POST o PUT.
 Primer de tot, hem de crear un objecte per emmagatzemar les dades:
 
 ```javascript
