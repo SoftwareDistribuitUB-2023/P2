@@ -95,6 +95,9 @@ Les variables jwt_secret_key i jwt_refresh_secret_key són les claus secretes qu
 JWT_SECRET_KEY="Alguna cosa secreta"
 JWT_REFRESH_SECRET_KEY="Alguna altra cosa secreta"
 ```
+I instal·leu la llibreria `python-dotenv` fent:
+
+        pip3 install python-dotenv
 
 L'única diferència entre les dues funcions és que el temps de caducitat per refrescar els tokens és més llarg que el temps de caducitat dels tokens d'accés. Això és perquè els tokens d'accés s'han de renovar amb més freqüència que els tokens de refresc.
 Aquestes funcions reben un subjecte que pot ser qualsevol cosa (en el nostre cas serà un nom d'usuari) i opcionalment un temps de caducitat. Si no s'especifica el temps de caducitat, s'utilitza el temps de caducitat predeterminat que hem definit a la classe Settings.
