@@ -120,7 +120,7 @@ getMatches () {
 
       axios.get(pathMatches)
         .then((res) => {
-          var matches = res.data.matches.filter((match) => {
+          var matches = res.data.filter((match) => {
             return match.competition_id != null
           })
           var promises = []
