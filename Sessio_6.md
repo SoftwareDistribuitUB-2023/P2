@@ -15,7 +15,7 @@ Necessitarem un Docker file per als serveis de backend i frontend i un Docker Co
 En l'arrel del vostre repositori de Github creeu el directori backend i el directori frontend
 i guardeu-hi els codis fonts que teniu fets fins ara (*.py) en un directori src
 Hauríeu de tenir una cosa que sigui similar en això:
-
+```
 ├── docker-compose.yml
 └── services
     ├── backend
@@ -47,6 +47,7 @@ Hauríeu de tenir una cosa que sigui similar en això:
         │       ├── AboutView.vue
         │       └── HomeView.vue
         └── vue.config.js
+```
 
 ### Docker-compose.yml
 
