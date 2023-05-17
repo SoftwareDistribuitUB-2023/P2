@@ -152,6 +152,7 @@ mireu bé els errors de postgress que us pugui donar quan ho proveu primer en lo
 
 També segons si estem en producció o no, canvieu l'endpoint root de l'aplicació. En el cas de producció no ha de retornar res.
 En aquest cas, tampoc cal que munteu el subdirectori static ni el directori templates.
+El fitxer de BD de sqlite el podeu treure del projecte, ja que en producció no el farem servir. 
 
 ### Execució en local de que tot funcioni
 Executeu el docker-compose en local per comprovar que tot funciona correctament.
@@ -161,9 +162,10 @@ Proveu el link a
 
  http://localhost:8080/.
 
+
 Aprofiteu per crear l'usuari admin i guardar-lo en la base de dades de postgres, en cas contrari l'haureu de crear
 des de l'entorn de producció.
-Ara que ja heu provat que tot es correcte podeu actualitzar el vostre repositori de github amb els canvis.
+Ara que ja heu provat que tot és correcte podeu actualitzar el vostre repositori de github amb els canvis.
 
 ### Creant la imatge docker
 Un cop tot funcioni en local, pugeu el vostre projecte docker a dockerhub. Si no teniu encara un usuari de docker hub, creeu-vos-ne un.
