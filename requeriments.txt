@@ -5,9 +5,10 @@ requests
 pydantic
 pytest
 sqlalchemy
-sqlite3
 bcrypt
 passlib
 python-multipart
 python-jose
 python-dotenv
+psycopg2-binary
+

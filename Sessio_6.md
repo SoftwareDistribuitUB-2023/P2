@@ -58,12 +58,12 @@ version: '3.8'
 
 services:
 
-   backend:
+  backend:
     build: ./services/backend
     ports:
       - 5000:5000
     environment:
-      - DATABASE_URL=postgres://postgres:postgres@db:5432/appdb
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/appdb
     volumes:
       - ./services/backend:/app
     command: uvicorn src.main:app --reload --host 0.0.0.0 --port 5000
@@ -145,11 +145,13 @@ app.add_middleware(
 En el utils.py afegim una variable `production: bool ` que ens permetrà canviar el comportament de l'aplicació en funció de si estem en producció o no.
 En el fitxer .env afegim la variable d'entorn `PRODUCTION=True`
 En el fitxer `database.py` feu que la variable `DATABASE_URL` s'obtingui de la variable d'entorn `DATABASE_URL` en cas que estiguem en producció.
-La variable està en l'environment definit a docker_compose.yml: `DATABASE_URL=postgres://postgres:postgres@db:5432/appdb`.
+La variable està en l'environment definit a docker_compose.yml: `DATABASE_URL=postgresql://postgres:postgres@db:5432/appdb`.
 Per obtenir una variable de l'entorn de producció podeu fer servir la funció `os.getenv("DATABASE_URL")`
 Pot ser que hàgiu de canviar la definició del model de la base de dades perquè funcioni amb la base de dades de producció.
-Alguns tipus poden no funcionar en postgress o pot ser que hàgiu d'especificar algun paràmetre més. En tot cas
-mireu bé els errors de postgress que us pugui donar quan ho proveu primer en local.
+Alguns tipus poden no funcionar en postgres o pot ser que hàgiu d'especificar algun paràmetre més. En tot cas
+mireu bé els errors de postgres que us pugui donar quan ho proveu primer en local.
+Afegiu al requirements.txt la llibreria `psycopg2-binary` que és la que ens permetrà connectar-nos a la base de dades de postgres.
+
 
 També segons si estem en producció o no, canvieu l'endpoint root de l'aplicació. En el cas de producció no ha de retornar res.
 En aquest cas, tampoc cal que munteu el subdirectori static ni el directori templates.
@@ -170,11 +172,14 @@ Ara que ja heu provat que tot és correcte podeu actualitzar el vostre repositor
 
 ### Creant la imatge docker
 Un cop tot funcioni en local, pugeu el vostre projecte docker a dockerhub. Si no teniu encara un usuari de docker hub, creeu-vos-ne un.
-Ho podeu fer des de la línia de comandes amb el client de docker o des del web de dockerhub.
+Heu de pujar mínim dues imatges, una per al backend i una per al frontend.
+Ho podeu fer des de la línia d'ordres amb el client de docker o des del web de dockerhub.
+
+
 ``` bash
 docker login
 docker-compose build
-docker tag <nom_imatge> <usuari_dockerhub>/<nom_imatge> # Nom imatge serà 2023 seguit del nom del vostre grup
+docker tag <nom_imatge> <usuari_dockerhub>/<nom_imatge> # Nom imatge serà 2023 seguit del nom del vostre grup i backend o frontend
 docker push <usuari_dockerhub>/<nom_imatge>
 ```
 Un cop tingueu la vostra imatge al dockerhub, ja podeu desplegar el vostre projecte a Azure.
@@ -200,13 +205,49 @@ Ara ja estem preparats per portar el nostre projecte a Azure.
   * Image Source: Docker Hub
   * Access Type: Public
   * Continuous Deployment: Off
-  * Configuration file: docker-compose.yml
+  * Configuration file: Enganxeu i editeu correctament el contingut del docker-compose.yml que heu fet servir en local, fent els canvis que hi ha a la secció següent.
 * Omplirem els camps de Networking:
   * Enable public access: On
 * Omplirem els camps de Monitoring:
   * Enable Application Insights: No
 * Anem a Review + create i creem la web app.
 
+### Canvis al docker-compose.yml
+Perquè funcioni el docker-compose a Azure, heu de posar el nom de la imatge del backend i del frontend perquè coincideixin amb el nom que heu pujat a dockerhub i treure el build
+de la imatge. 
+```yaml
+version: "3.8"
+
+services:
+  backend:
+    image: 2023<grup><backend>
+    container_name: backend
+    ports:
+      - "8000:8000"
+    environment:
+        - DATABASE_URL=postgresql://postgres:postgres@db:5432/appdb
+        - PRODUCTION=True
+    command: uvicorn app.main:app --reload --host
+    depends_on:
+      - db
+   
+  frontend:
+    image: 2023<grup><frontend>
+    container_name: frontend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - backend
+  db:
+    image: postgres:15.1
+    container_name: db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=appdb
+    volumes:
+      - ${WEBAPP_STORAGE_HOME}/db:/var/lib/postgresql/data
+```
 
 Un cop creat, anem al recurs.
 
@@ -253,7 +294,7 @@ per exemple a `
 from lock import lock
 ....
     @app.route('/api/v1.0/....', methods=['POST'])
-    def async post_...():
+     async def post_...():
         #codi codi codi Async
        
         with lock.lock: 
