@@ -215,6 +215,13 @@ Ara ja estem preparats per portar el nostre projecte a Azure.
 ### Canvis al docker-compose.yml
 Perquè funcioni el docker-compose a Azure, heu de posar el nom de la imatge del backend i del frontend perquè coincideixin amb el nom que heu pujat a dockerhub i treure el build
 de la imatge. 
+Per a poder tenir persistència en la Base de Dades heu de crear un volum compartit entre el contenidor de la base de dades i el host.
+A Azure heu de configurar la següent variable d'entorn per poder crear el volum compartit: 
+`WEBSITES_ENABLE_APP_SERVICE_STORAGE=TRUE`
+
+Heu d'anar a `Configuration` dins de la vostra `web appplication` i canviar el valor de la variable d'entorn.
+
+
 ```yaml
 version: "3.8"
 
