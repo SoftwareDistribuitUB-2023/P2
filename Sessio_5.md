@@ -361,12 +361,14 @@ Per comprovar l’usuari, hem de fer POST a /login per obtenir el token que util
 
 ```javascript
 checkLogin () {
-  const parameters = {
-    username: this.username,
-    password: this.password
+  const parameters = 'username=' + this.username + '&password=' + this.password
+  const config = {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
   }
   const path = 'http://localhost:8000/login'
-  axios.post(path, parameters)
+  axios.post(path, parameters, config)
     .then((res) => {
       this.logged = true
       this.token = res.data.token
