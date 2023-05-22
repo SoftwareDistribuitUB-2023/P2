@@ -99,6 +99,12 @@ I instal·leu la llibreria `python-dotenv` fent:
 
         pip3 install python-dotenv
 
+Quan executeu el servidor si no us troba el fitxer .env, heu d'especificar on es troba el fitxer `.env` fent:
+
+        python3 -m uvicorn main:app --env-file path/fitxer/.env
+
+Recordeu que el fitxer .env està en el gitignore, i per tant l'heu de crear en local cada cop que feu un git clone.
+
 L'única diferència entre les dues funcions és que el temps de caducitat per refrescar els tokens és més llarg que el temps de caducitat dels tokens d'accés. Això és perquè els tokens d'accés s'han de renovar amb més freqüència que els tokens de refresc.
 Aquestes funcions reben un subjecte que pot ser qualsevol cosa (en el nostre cas serà un nom d'usuari) i opcionalment un temps de caducitat. Si no s'especifica el temps de caducitat, s'utilitza el temps de caducitat predeterminat que hem definit a la classe Settings.
 

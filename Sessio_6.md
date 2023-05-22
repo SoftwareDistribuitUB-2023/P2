@@ -66,7 +66,7 @@ services:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/appdb
     volumes:
       - ./services/backend:/app
-    command: uvicorn src.main:app --reload --host 0.0.0.0 --port 8000
+    command: uvicorn src.main:app --reload --host 0.0.0.0 --port 8000 --env-file path/fitxer/.env
     depends_on:
       - db
  
@@ -234,7 +234,7 @@ services:
     environment:
         - DATABASE_URL=postgresql://postgres:postgres@db:5432/appdb
         - PRODUCTION=True
-    command: uvicorn app.main:app --reload --host
+    command: uvicorn app.main:app --reload --host --env-file path/fitxer/.env
     depends_on:
       - db
    
