@@ -61,12 +61,12 @@ services:
   backend:
     build: ./services/backend
     ports:
-      - 5000:5000
+      - 8000:8000
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/appdb
     volumes:
       - ./services/backend:/app
-    command: uvicorn src.main:app --reload --host 0.0.0.0 --port 5000
+    command: uvicorn src.main:app --reload --host 0.0.0.0 --port 8000
     depends_on:
       - db
  
