@@ -124,9 +124,20 @@ COPY package.json .
 COPY package-lock.json .
 RUN npm install
 
-CMD ["npm", "run", "dev"]
-
+CMD ["npm", "run", "serve"]
 ```
+
+### Afegir script serve a package.json
+
+Afegiu el següent script a `package.json` del frontend
+
+```json
+"scripts": {
+    "serve": "vue-cli-service serve" 
+}
+```
+Heu d'instal·lar el vue-cli-service amb la comanda `npm install -g @vue/cli-service`
+
 
 ### Nova configuració de CORS:
 Canviem el CORS a main.py per tal que només accepti peticions del frontend
