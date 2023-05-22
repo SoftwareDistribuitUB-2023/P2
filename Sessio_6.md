@@ -124,7 +124,7 @@ COPY package.json .
 COPY package-lock.json .
 RUN npm install
 
-CMD ["npm", "run", "serve"]
+CMD ["npm", "run", "dev"]
 
 ```
 

@@ -236,7 +236,7 @@ Testing fent servir Pytest.
 
 Per testejar els nostres endpoints, farem servir la llibreria `pytest` que ens permetrà fer tests unitaris i de integració.
 
-Instal·leu els requeriments del fitxer `requirements.txt` amb el següent comandament:
+Instal·leu els requirements del fitxer `requirements.txt` amb el següent comandament:
 
 ```bash
 pip install -r requirements.txt
