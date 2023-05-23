@@ -206,7 +206,7 @@ En cas de resposta correcte veureu els tokens generats.
 
 Protegir els endpoints
 ----------------------
-Ara que ja tenim suport per a l'autentificació, podem posar enpoints protegits per tal que només usuaris amb privilegis com l'administrador o usuaris registrats
+Ara que ja tenim suport per a l'autentificació, podem posar endpoints protegits per tal que només usuaris amb privilegis com l'administrador o usuaris registrats
 puguin accedir-hi. Per això, heu de modificar els endpoints de la següent manera:
 Per fer-ho crearem dependències que ens permetran verificar si l'usuari té accés a l'endpoint.
 Aquestes dependències es poden afegir com a paràmetres a les funcions dels endpoints, s'executen abans que la funció i poden retornar un valor que s'utilitzarà com a paràmetre per a la funció.
@@ -282,8 +282,8 @@ Per provar aquesta dependència, afegiu-la com a dependència en l'endpoint `@ap
 ```
 from app.deps import get_current_user
 
-@app.get('/account', summary='Get details of currently logged in user', response_model=UserOut)
-async def get_me(user: User = Depends(get_current_user)):
+@app.get('/account', summary='Get details of currently logged in user', response_model=SytemAccount
+async def get_me(user: SystemAccount = Depends(get_current_user)):
     return user
 ```
 Comproveu en la documentació com ara /account requereix un token per a ser accedit.
@@ -314,8 +314,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Shows',
-      component: Shows
+      name: 'Matches',
+      component: Matches
     },
     {
       path: '/userlogin',
@@ -377,7 +377,7 @@ checkLogin () {
   axios.post(path, parameters, config)
     .then((res) => {
       this.logged = true
-      this.token = res.data.token
+      this.token = res.data.token.access_token
       this.$router.push({ path: '/', query: { username: this.username, logged: this.logged, token: this.token } })
     })
     .catch((error) => {
