@@ -69,6 +69,8 @@ services:
     command: uvicorn src.main:app --reload --host 0.0.0.0 --port 8000 --env-file path/fitxer/.env
     depends_on:
       - db
+    networks:
+        - app-network
  
   frontend:
     build: ./services/frontend
@@ -77,6 +79,9 @@ services:
       - '/app/node_modules'
     ports:
       - 8080:8080
+    networks:
+        - app-network
+      
   
   db:
     image: postgres:15.1
@@ -88,9 +93,14 @@ services:
       - POSTGRES_DB=appdb
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+    networks:
+        - app-network
 
 volumes:
   postgres_data:
+
+networks:
+  app-network:
 ```
 
 ### Dockerfile per al servei de backend
@@ -125,6 +135,7 @@ RUN npm install -g @vue/cli-service
 COPY package.json .
 COPY package-lock.json .
 RUN npm install
+RUN npm run build   
 
 CMD ["npm", "run", "serve"]
 ```
@@ -242,22 +253,26 @@ version: "3.8"
 
 services:
   backend:
-    image: 2023<grup><backend>
+    image: "usuari/2023<grup><backend>"
     container_name: backend
     ports:
       - "8000:8000"
     environment:
         - DATABASE_URL=postgresql://postgres:postgres@db:5432/appdb
         - PRODUCTION=True
-    command: uvicorn app.main:app --reload --host --env-file path/fitxer/.env
+    command: uvicorn src.main:app --reload --host --env-file path/fitxer/.env
     depends_on:
       - db
+    networks:
+      - app_network
    
   frontend:
     image: 2023<grup><frontend>
     container_name: frontend
     ports:
       - "8080:8080"
+    networks:
+      - app_network
     depends_on:
       - backend
   db:
@@ -269,6 +284,11 @@ services:
       - POSTGRES_DB=appdb
     volumes:
       - ${WEBAPP_STORAGE_HOME}/db:/var/lib/postgresql/data
+    networks:
+      - app_network
+      
+networks:
+  app_network:
 ```
 
 Un cop creat, anem al recurs.

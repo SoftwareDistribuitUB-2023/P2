@@ -255,9 +255,9 @@ class Competition(CompetitionBase):
 class MatchBase(BaseModel):
     date: datetime
     price: float
-    local: Team
-    visitor: Team
-    competition: Competition
+    local: TeamBase
+    visitor: TeamBase
+    competition: CompetitionBase
 
 
 class MatchCreate(MatchBase):
@@ -266,6 +266,9 @@ class MatchCreate(MatchBase):
 
 class Match(MatchBase):
     id: int
+    local: Team
+    visitor: Team
+    competition: Competition
 
     class Config:
         orm_mode = True
@@ -397,7 +400,6 @@ except:
 Codis d'errors del protocol HTTP: ![image](figures/errors.png)
 
 
-   
     
 
 
