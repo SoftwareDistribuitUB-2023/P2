@@ -116,31 +116,10 @@ Executeu l'aplicació FastAPI i afegiu el codi següent als mètodes de vue:
 ```javascript
 getMatches () {
       const pathMatches = 'http://localhost:8000/matches/'
-      const pathCompetition = 'http://localhost:8000/competition/'
-
       axios.get(pathMatches)
         .then((res) => {
-          var matches = res.data.filter((match) => {
-            return match.competition_id != null
-          })
-          var promises = []
-          for (let i = 0; i < matches.length; i++) {
-            const promise = axios.get(pathCompetition + matches[i].competition_id)
-              .then((resCompetition) => {
-                delete matches[i].competition_id
-                matches[i].competition = {
-                  'name': resCompetition.data.competition.name,
-                  'category': resCompetition.data.competition.category,
-                  'sport': resCompetition.data.competition.sport
-                }
-              })
-              .catch((error) => {
-                console.error(error)
-              })
-            promises.push(promise)
-          }
-          Promise.all(promises).then((_) => {
-            this.matches = matches
+          this.matches = res.data.filter((match) => {
+            return match !== null
           })
         })
         .catch((error) => {
@@ -153,7 +132,6 @@ On `/matches` tornarà la llista de tots els partits que ja heu registrat. Per e
 
 ![image](figures/sessio-4_api.png)
 
-I per una altra banda, estem utilitzant els endpoints `/competition/<id>` per a recuperar la informació de les competicions i inserir-la al diccionari.
 
 A més, afegiu created() sota i fora dels mètodes. Permet que el codi s’executi cada vegada que s’inicialitza la web.
 
