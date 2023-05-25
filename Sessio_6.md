@@ -130,7 +130,7 @@ ENV PATH /app/node_modules/.bin:$PATH
 
 RUN npm install @vue/cli@5.0.8 -g
 RUN npm install -g postcss-loader postcss postcss-import postcss-url
-RUN npm install -g @vue/cli-service
+RUN npm install -g serve
 
 COPY package.json .
 COPY package-lock.json .
@@ -146,11 +146,10 @@ Afegiu el següent script a `package.json` del frontend
 
 ```json
 "scripts": {
-    "serve": "vue-cli-service serve" 
+     "serve": "serve -s dist -p 8080"
 }
 ```
-Heu d'instal·lar el vue-cli-service amb la comanda `npm install -g @vue/cli-service` i també
-`npm install -g postcss-loader postcss postcss-import postcss-url`
+Heu d'instal·lar el serve amb `npm install -g serve`
 
 
 
@@ -210,11 +209,50 @@ docker push <usuari_dockerhub>/<nom_imatge>
 ```
 Un cop tingueu la vostra imatge al dockerhub, ja podeu desplegar el vostre projecte a Azure.
 
+
+
 ## Desplegant a Azure
-Ara ja estem preparats per portar el nostre projecte a Azure.
+Ara ja estem preparats per portar el nostre projecte a Azure:
 
 * Entreu a Azure.com i registreu-vos amb el vostre correu de la UB.
 * A continuació crearem un nou recurs donant-li al símbol + a la part superior esquerra de la pantalla.
+
+Farem servir 3 serveis diferents d'azure per desplegar els nostres serveis:
+
+1. Un servei Static Web App per al frontend:
+
+* Poseu la URL del backend en el fitxer .env del frontend amb el nom de variable d'entorn `VUE_APP_BACKEND_URL`
+* En les crides a Axios del frontend agafeu la URL del backend amb la funció de vue `process.env.VUE_APP_BACKEND_URL`
+* Compileu tot el vostre projecte frontend i pugeu-lo a una branca anomenada deploy del vostre repositori de github.
+Crearem un nou recurs a Azure, però aquest cop triarem un servei Static Web App per al frontend:
+
+* Triarem el mateix Resource Group que l'anterior servei.
+* Poseu el nom de frontend
+* Trieu el pla gratuït
+* Trieu la regió West Europe
+* Escollirem el repositori de github on tenim el nostre projecte en l'Organització SoftwareDistribuitUB-2023
+* Trieu la branca deploy
+* A Build Presets escolliu Vue.js
+* A App location poseu /frontend
+
+Ja podeu crear el servei.
+Aneu al recurs i veureu la URL del Frontend.
+Apunteu-la perquè la necessitareu més endavant.
+
+
+2. Una base de dades de postgresql:
+
+Finalment crearem una base de dades de postgresql:
+* Afegiu un nou recurs i trieu Database for PostgreSQL.
+* Trieu el mateix Resource Group que l'anterior servei.
+* Trieu les opcions més bàsiques, reduint el preu al mínim.
+* Apunteu-vos el nom de la base de dades, la URL i el nom d'usuari i contrasenya que heu triat, ho necessitareu més endavant.
+
+
+3. Un servei Web App per al backend:
+Abans de pujar el backend a Azure, canvieu el fitxer de configuració de la base de dades perquè apunti a la base de dades de producció, canvieu les variables d'entorn perquè apuntin ala base de dades i canvieu el fitxer de configuració de CORS perquè només accepti peticions del frontend que heu creat abans.
+Genereu el nou Dockerfile per al backend i pugeu-lo a dockerhub.
+
 * Triarem una Web App per a crear. 
 * Omplirem els camps bàsics:
   * Subscription: Azure for Students
@@ -227,75 +265,22 @@ Ara ja estem preparats per portar el nostre projecte a Azure.
   * region: West Europe
   * pricing tier: F1 Free (Important canviar-ho o pagareu diners!!!)
 * Omplirem els camps de Docker:
-  * Options: Docker Compose
+  * Options: Single Container
   * Image Source: Docker Hub
   * Access Type: Public
-  * Continuous Deployment: Off
-  * Configuration file: Enganxeu i editeu correctament el contingut del docker-compose.yml que heu fet servir en local, fent els canvis que hi ha a la secció següent.
+  * Image and tag: Poseu el nom de la imatge del Backend que heu pujat a dockerhub
+  * Startup Command: Poseu el mateix que heu posat al fitxer docker-compose.yml: `uvicorn src.main:app --host 0.0.0.0 --port 80 --env-file path/fitxer/.env`
 * Omplirem els camps de Networking:
   * Enable public access: On
 * Omplirem els camps de Monitoring:
   * Enable Application Insights: No
 * Anem a Review + create i creem la web app.
+* Un cop creat anem al recurs i copiem la URL del backend.
 
-### Canvis al docker-compose.yml
-Perquè funcioni el docker-compose a Azure, heu de posar el nom de la imatge del backend i del frontend perquè coincideixin amb el nom que heu pujat a dockerhub i treure el build
-de la imatge. 
-Per a poder tenir persistència en la Base de Dades heu de crear un volum compartit entre el contenidor de la base de dades i el host.
-A Azure heu de configurar la següent variable d'entorn per poder crear el volum compartit: 
-`WEBSITES_ENABLE_APP_SERVICE_STORAGE=TRUE`
+Ja podeu provar que tot funcioni bé amb la URL del backend que podeu veure a Domains o prement el botó Browse de la part superior de la pantalla.
 
-Heu d'anar a `Configuration` dins de la vostra `web appplication` i canviar el valor de la variable d'entorn.
+Finalment canvieu la URL del backend al fitxer de configuració del frontend i feu un commit i push al vostre repositori de github a la branca de deploy del frontend
 
-
-```yaml
-version: "3.8"
-
-services:
-  backend:
-    image: "usuari/2023<grup><backend>"
-    container_name: backend
-    ports:
-      - "8000:8000"
-    environment:
-        - DATABASE_URL=postgresql://postgres:postgres@db:5432/appdb
-        - PRODUCTION=True
-    command: uvicorn src.main:app --reload --host --env-file path/fitxer/.env
-    depends_on:
-      - db
-    networks:
-      - app_network
-   
-  frontend:
-    image: 2023<grup><frontend>
-    container_name: frontend
-    ports:
-      - "8080:8080"
-    networks:
-      - app_network
-    depends_on:
-      - backend
-  db:
-    image: postgres:15.1
-    container_name: db
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=appdb
-    volumes:
-      - ${WEBAPP_STORAGE_HOME}/db:/var/lib/postgresql/data
-    networks:
-      - app_network
-      
-networks:
-  app_network:
-```
-
-Un cop creat, anem al recurs.
-
-A Overview veureu tots els detalls de la vostra web app.
-
-Ja podeu provar que tot funcioni bé amb el link que podeu veure a Domains o prement el botó Browse de la part superior de la pantalla.
 
 Comproveu que el vostre codi funciona correctament, especialment que els diners i el nombre d'entrades s'actualitzen de forma correcta.
 En les funcions que no siguin async no hi hauria d'haver problemes. En les funcions que siguin async, pot ser que hàgiu  de sincronitzar parts del vostre codi per evitar condicions de carrera.
