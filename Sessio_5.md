@@ -231,7 +231,7 @@ reuseable_oauth = OAuth2PasswordBearer(
     scheme_name="JWT"
 )
 
-async def get_current_user(token: str = Depends(reuseable_oauth),settings: Annotated[config.Settings, Depends(get_settings)]) -> SystemAccount:
+async def get_current_user(token: str = Depends(reuseable_oauth),settings: Annotated[utils.Settings, Depends(get_settings)]) -> SystemAccount:
     try:
         payload = jwt.decode(
             token, settings.jwt_secret_key, algorithms=[settings.algorithm]
